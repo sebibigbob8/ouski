@@ -68,10 +68,12 @@ $(document).ready(function () {
     var labelFeatures = [];
     //Get ski Stations and draw icons and labels
     setTimeout(async () => {
-        let response = await $.get("exemple.json")
-        console.log(response);
-        let keys = Object.values(response);
+        /* let response = await $.get("exemple.json");
+        let keys = Object.values(response);*/
         //Retrieve all GeoData from darksky API
+        let response2 = await $.getJSON(`https://sebibigbob8.carto.com/api/v2/sql/?q=select * from stations`);
+        console.log('rep: ',response2.rows);
+        let keys = Object.values(response2.rows);
         for (const key of keys) {
             let urlWeather = `${darksky}/${key.lat},${key.long}?exclude=hourly,daily,flags&units=si`;
             let result = await doCORSRequest({url: urlWeather});
