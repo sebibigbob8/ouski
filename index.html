@@ -1,0 +1,36 @@
+<html>
+<head>
+    <title>Ouski</title>
+    <script type="text/javascript" src="js/config.js"></script>
+    <script type="text/javascript" src="js/cors.js"></script>
+    <script type="text/javascript" src="js/layers.js"></script>
+    <style type="text/css">
+        #map {
+            width: 80%;
+            height: 100%;
+            float: left;
+        }
+
+        #informations {
+            width: 15%;
+            margin-left: 5%;
+            float: left;
+        }
+        #container{
+            width: 100%;
+            margin: auto;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <div id="map"></div>
+    <div id="informations">
+        <span class='spanInfo' id="temperature" hidden>Temperature: </span><br>
+        <span class='spanInfo' id="windSpeed" hidden>Vent: </span><br>
+        <span class='spanInfo' id="visibility" hidden>Visibilite: </span>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+[
+    {
+        "name": "Zermatt",
+        "lat": 46.020714,
+        "long": 7.749117
+    },
+    {
+        "name": "Portes du Soleil",
+        "lat": 46.185100,
+        "long": 6.836730
+    },
+    {
+        "name": "Crans-Montana",
+        "lat": 46.311860,
+        "long": 7.482300
+    },
+    {
+        "name": "Ovronnaz",
+        "lat": 46.201710,
+        "long": 7.169050
+    },
+    {
+        "name": "Verbier",
+        "lat": 46.094872,
+        "long": 7.218110
+    },
+    {
+        "name": "Zinal",
+        "lat": 46.020714,
+        "long": 7.749117
+    },
+    {
+        "name": "Nendaz",
+        "lat": 46.185509,
+        "long": 7.304740
+    },
+    {
+        "name": "Villars-Gryon-Diablerets",
+        "lat": 46.279840,
+        "long": 7.066490
+    },
+    {
+        "name": "St-Luc",
+        "lat": 46.220460,
+        "long": 7.596930
+    },
+    {
+        "name": "Arolla",
+        "lat": 46.023392,
+        "long": 7.481780
+    },
+    {
+        "name": "Tzoumaz",
+        "lat": 46.144409,
+        "long": 7.233510
+    },
+    {
+        "name": "Veysonnaz",
+        "lat": 46.196362,
+        "long": 7.337760
+    },
+    {
+        "name": "Anzère",
+        "lat": 46.295610,
+        "long": 7.396220
+    },
+    {
+        "name": "Leysin",
+        "lat": 46.341330,
+        "long": 7.012340
+    }
+]
