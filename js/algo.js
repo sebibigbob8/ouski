@@ -15,12 +15,12 @@ $(document).ready(function () {
     var layerOSM = new ol.layer.Image({
         title: "Lakes",
         source: new ol.source.ImageWMS({
-            url: blWMS,
+            url: chWMS,
             params: {
                 VERSION: "1.0.0",
-                LAYERS: "ne_10m_lakes",
+                LAYERS: "ch.bafu.showme-gemeinden_lawinen",
                 FORMAT: "image/png"
-            }
+            },
         })
     });
     var layerBingMaps = new ol.layer.Tile({
@@ -29,6 +29,7 @@ $(document).ready(function () {
             imagerySet: 'Road'
         })
     });
+    layerOSM.setOpacity(0.4);
     map.addLayer(layerBingMaps);
     map.addLayer(layerOSM);
     /**
@@ -40,13 +41,14 @@ $(document).ready(function () {
     v2.setCenter(cbox);
     v2.setZoom(10);
     map.setView(v2);
-    var iconSelectStyle = new ol.style.Style({
+    var iconNormalStyle = new ol.style.Style({
         image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 46],
+            anchor: [0.5, 0.5],
             anchorXUnits: 'fraction',
             anchorYUnits: 'pixels',
             opacity: 0.75,
-            src: '../images/placeholder.png'
+            src: './images/placeholder.png',
+            scale: 0.1
         }))
     });
 
@@ -88,47 +90,14 @@ $(document).ready(function () {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //SEB**************************************************************************************
     /**
-     * Get all the ski stations and draw them
+     * Get all the ski stations and draw them.
+     * Retrieve GeoData from darksky API
      */
     setTimeout(async () => {
         var labelFeatures = [];
-        //Retrieve all GeoData from darksky API
+
         let response2 = await $.getJSON(`https://sebibigbob8.carto.com/api/v2/sql/?q=select * from stations`);
         let keys = Object.values(response2.rows);
         for (const key of keys) {
@@ -151,32 +120,49 @@ $(document).ready(function () {
             layers: [labelLayer]
         });
         map.addInteraction(selectInteraction);
-        // add a listener to fire when one or more feature from the interactive layer(s) is(are) selected
+        /**
+         *  fire when one or more feature from the interactive layer(s) is(are) selected
+         */
+        let lastFeature = "";
         selectInteraction.on('select', function (e) {
             if (e.selected.length > 0) {
+                if(lastFeature != "")
+                    lastFeature.setStyle(iconNormalStyle);
                 let feature = e.selected[0];
+                console.log("feature",feature);
                 $('#temperature').text(feature.values_.temperature);
                 $('#visibility').text(feature.values_.visibility);
                 $('#windSpeed').text(feature.values_.windSpeed);
+                $('#precip').text(feature.values_.precipitation);
+                $('#precipProbability').text(feature.values_.precipitationProbability);
                 $('.spanInfo').show();
                 var ext = feature.getGeometry().getExtent();
                 var center = ol.extent.getCenter(ext);
 
                 map.setView(new ol.View({
-                    projection: 'EPSG:4326',//or any projection you are using
-                    center: [center[0], center[1]],//zoom to the center of your feature
-                    zoom: 12 //here you define the levelof zoom
+                    projection: 'EPSG:4326',
+                    center: [center[0], center[1]],//zoom to the center of the feature
+                    zoom: 12
                 }));
+                feature.setStyle(iconSelectStyle);
+                lastFeature=feature;
             }
         });
 
     }, 1000);
-
     /**
      * LayerSwitcher
      */
     var layerSwitcher = new ol.control.LayerSwitcher();
+
     map.addControl(layerSwitcher);
+
+    /**
+     * Create a marker and save all WeatherDatas needed in properties
+     * @param result
+     * @param key
+     * @returns {ol.Feature}
+     */
     function createMarker(result, key) {
         let weatherData = result.currently
         var iconFeature = new ol.Feature({
@@ -185,18 +171,22 @@ $(document).ready(function () {
             temperature: weatherData.temperature,
             windSpeed: weatherData.windSpeed, // m/s
             visibility: weatherData.visibility, // KM
-            precipitation: weatherData.precipIntensity, // mm/h
-            style: iconSelectStyle
+            precipitation: weatherData.precipIntensity,// mm/h
+            precipitationProbability: weatherData.precipProbability // %
         });
+        iconFeature.setStyle(iconNormalStyle);
         return iconFeature;
     }
+    var iconSelectStyle = new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+            anchor: [0.5, 0.5],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            opacity: 0.75,
+            src: './images/placeholder.png',
+            scale: 0.2
+        }))
+    });
+});
 
-})
-;
 
-/**
- * Create a marker and save all WeatherData needed in properties
- * @param result
- * @param key
- * @returns {ol.Feature}
- */
