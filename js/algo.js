@@ -12,25 +12,24 @@ $(document).ready(function () {
         target: 'map'
     });
 
-    var layerOSM = new ol.layer.Image({
-        title: "Lakes",
-        source: new ol.source.ImageWMS({
-            url: blWMS,
-            params: {
-                VERSION: "1.0.0",
-                LAYERS: "ne_10m_lakes",
-                FORMAT: "image/png"
-            }
-        })
-    });
-    var layerBingMaps = new ol.layer.Tile({
+    var layerBingMapsRoad = new ol.layer.Tile({
+        title: "Plan",
         source: new ol.source.BingMaps({
             key: 'AqE05oJsq-bWa50FPOW2S0eQm9Oqqygc1VTi_WPhUIoKR_-jgA559CRbfndgWAIz',
             imagerySet: 'Road'
         })
     });
-    map.addLayer(layerBingMaps);
-    map.addLayer(layerOSM);
+
+    var layerBingMapsSat = new ol.layer.Tile({
+        title: "Satelite",
+        source: new ol.source.BingMaps({
+            key: 'AqE05oJsq-bWa50FPOW2S0eQm9Oqqygc1VTi_WPhUIoKR_-jgA559CRbfndgWAIz',
+            imagerySet: 'Aerial'
+        })
+    });
+
+    map.addLayer(layerBingMapsSat);
+    map.addLayer(layerBingMapsRoad);
     /**
      * View
      * @type {ol.View}
