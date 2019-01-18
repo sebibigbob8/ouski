@@ -81,60 +81,81 @@ $(document).ready(function () {
          */
         let lastFeature = "";
         selectInteraction.on('select', function (e) {
-            if (e.selected.length > 0) {
-                if (lastFeature != "")
-                    lastFeature.setStyle(iconNormalStyle);
-                let feature = e.selected[0];
-                $('#station').text(feature.values_.name);
-                //Currently
-                $('#temperature').text(feature.values_.temperature);
-                $('#visibility').text(feature.values_.visibility);
-                $('#windSpeed').text(feature.values_.windSpeed);
-                $('#precip').text(feature.values_.precipitation);
-                $('#precipProbability').text(feature.values_.precipitationProbability);
-                $('#summary').text(feature.values_.summary);
-                $('#icon').attr('src', feature.values_.icon);
-                //Today
-                $('#temperatureToday').text(feature.values_.temperatureToday);
-                $('#visibilityToday').text(feature.values_.visibilityToday);
-                $('#windSpeedToday').text(feature.values_.windSpeedToday);
-                $('#precipToday').text(feature.values_.precipitationToday);
-                $('#precipProbabilityToday').text(feature.values_.precipitationProbabilityToday);
-                $('#summaryToday').text(feature.values_.summaryToday);
-                $('#iconToday').attr('src', feature.values_.iconToday);
-                //nextday
-                $('#temperatureNext1').text(feature.values_.temperatureNext1);
-                $('#visibilityNext1').text(feature.values_.visibilityNext1);
-                $('#windSpeedNext1').text(feature.values_.windSpeedNext1);
-                $('#precipNext1').text(feature.values_.precipitationNext1);
-                $('#precipProbabilityNext1').text(feature.values_.precipitationProbabilityNext1);
-                $('#summaryNext1').text(feature.values_.summaryNext1);
-                $('#iconNext1').attr('src', feature.values_.iconNext1);
-                //nextday2
-                $('#temperatureNext2').text(feature.values_.temperatureNext2);
-                $('#visibilityNext2').text(feature.values_.visibilityNext2);
-                $('#windSpeedNext2').text(feature.values_.windSpeedNext2);
-                $('#precipNext2').text(feature.values_.precipitationNext2);
-                $('#precipProbabilityNext2').text(feature.values_.precipitationProbabilityNext2);
-                $('#summaryNext2').text(feature.values_.summaryNext2);
-                $('#iconNext2').attr('src', feature.values_.iconNext2);
-                //Week
-                $('#summaryWeek').text(feature.values_.summaryWeek);
+            if (e.selected.length < 1)
+                console.warn("None feature selected")
+            if (lastFeature != "")
+                lastFeature.setStyle(iconNormalStyle);
+            let feature = e.selected[0];
 
-                $('.divInfo').show();
-                var ext = feature.getGeometry().getExtent();
-                var center = ol.extent.getCenter(ext);
+            $('#station').text(feature.values_.name);
+            //Currently
+            $('#temperature').text(feature.values_.temperature);
+            $('#visibility').text(feature.values_.visibility);
+            $('#windSpeed').text(feature.values_.windSpeed);
+            $('#precip').text(feature.values_.precipitation);
+            $('#precipProbability').text(feature.values_.precipitationProbability);
+            $('#summary').text(feature.values_.summary);
+            $('#icon').attr('src', feature.values_.icon);
+            //Today
+            $('#temperatureToday').text(feature.values_.temperatureToday);
+            $('#visibilityToday').text(feature.values_.visibilityToday);
+            $('#windSpeedToday').text(feature.values_.windSpeedToday);
+            $('#precipToday').text(feature.values_.precipitationToday);
+            $('#precipProbabilityToday').text(feature.values_.precipitationProbabilityToday);
+            $('#summaryToday').text(feature.values_.summaryToday);
+            $('#iconToday').attr('src', feature.values_.iconToday);
+            //nextday
+            $('#temperatureNext1').text(feature.values_.temperatureNext1);
+            $('#visibilityNext1').text(feature.values_.visibilityNext1);
+            $('#windSpeedNext1').text(feature.values_.windSpeedNext1);
+            $('#precipNext1').text(feature.values_.precipitationNext1);
+            $('#precipProbabilityNext1').text(feature.values_.precipitationProbabilityNext1);
+            $('#summaryNext1').text(feature.values_.summaryNext1);
+            $('#iconNext1').attr('src', feature.values_.iconNext1);
+            //nextday2
+            $('#temperatureNext2').text(feature.values_.temperatureNext2);
+            $('#visibilityNext2').text(feature.values_.visibilityNext2);
+            $('#windSpeedNext2').text(feature.values_.windSpeedNext2);
+            $('#precipNext2').text(feature.values_.precipitationNext2);
+            $('#precipProbabilityNext2').text(feature.values_.precipitationProbabilityNext2);
+            $('#summaryNext2').text(feature.values_.summaryNext2);
+            $('#iconNext2').attr('src', feature.values_.iconNext2);
+            //Week
+            $('#summaryWeek').text(feature.values_.summaryWeek);
+            //Show
+            $('#informations').show();
+            var ext = feature.getGeometry().getExtent();
+            var center = ol.extent.getCenter(ext);
 
-                map.setView(new ol.View({
-                    projection: 'EPSG:4326',
-                    center: [center[0], center[1]],//zoom to the center of the feature
-                    zoom: 12
-                }));
-                feature.setStyle(iconSelectStyle);
-                lastFeature = feature;
-            }
-
+            map.setView(new ol.View({
+                projection: 'EPSG:4326',
+                center: [center[0], center[1]],//zoom to the center of the feature
+                zoom: 12
+            }));
+            feature.setStyle(iconSelectStyle);
+            lastFeature = feature;
+            /**Navbar
+             *
+             */
+            $('#currentlyNav').click(e=>{
+                $('.divInfo').hide();
+                $('#informations').show();
+            })
+            $('#todayNav').click(e=>{
+                $('.divInfo').hide();
+                $('#informationsToday').show();
+            })
+            $('#nextDayNav').click(e=>{
+                $('.divInfo').hide();
+                $('#informationsNext1').show();
+            })
+            $('#nextDay2Nav').click(e=>{
+                $('.divInfo').hide();
+                $('#informationsNext2').show();
+            })
         });
+
+
 
     }, 1000);
     /**
@@ -183,13 +204,13 @@ $(document).ready(function () {
             precipitationProbabilityNext1: nextDay1.precipProbability, // %
             iconNext1: `./images/${nextDay1.icon}.png`,
             //Next day 2
-            summaryNext2: nextDay1.summary,
-            temperatureNext2: nextDay1.temperature,
-            windSpeedNext2: nextDay1.windSpeed, // m/s
-            visibilityNext2: nextDay1.visibility, // KM
-            precipitationNext2: nextDay1.precipIntensity,// mm/h
-            precipitationProbabilityNext2: nextDay1.precipProbability, // %
-            iconNext2: `./images/${nextDay1.icon}.png`,
+            summaryNext2: nextDay2.summary,
+            temperatureNext2: nextDay2.temperature,
+            windSpeedNext2: nextDay2.windSpeed, // m/s
+            visibilityNext2: nextDay2.visibility, // KM
+            precipitationNext2: nextDay2.precipIntensity,// mm/h
+            precipitationProbabilityNext2: nextDay2.precipProbability, // %
+            iconNext2: `./images/${nextDay2.icon}.png`,
             //Week
             summaryWeek: result.daily.summary
         });
@@ -217,4 +238,5 @@ $(document).ready(function () {
             scale: 0.1
         }))
     });
+
 });
