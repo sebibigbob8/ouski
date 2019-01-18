@@ -31,6 +31,7 @@ $(document).ready(function () {
 
     map.addLayer(layerBingMapsSat);
     map.addLayer(layerBingMapsRoad);
+
     /**
      * View
      * @type {ol.View}
