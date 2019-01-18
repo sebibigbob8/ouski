@@ -6,11 +6,18 @@
 
 #informations {
     width: 15%;
-    margin-left: 5%;
+    margin-left: 1%;
     float: left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 1em;
 }
+
 #container{
     width: 100%;
     margin: auto;
     padding: 10px;
+}
+
+body {
+    margin: -10px;
 }

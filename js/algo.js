@@ -12,23 +12,11 @@ $(document).ready(function () {
         target: 'map'
     });
 
-<<<<<<< HEAD
     var layerBingMapsRoad = new ol.layer.Tile({
         title: "Plan",
         source: new ol.source.BingMaps({
             key: 'AqE05oJsq-bWa50FPOW2S0eQm9Oqqygc1VTi_WPhUIoKR_-jgA559CRbfndgWAIz',
             imagerySet: 'Road'
-=======
-    var layerOSM = new ol.layer.Image({
-        title: "Lakes",
-        source: new ol.source.ImageWMS({
-            url: chWMS,
-            params: {
-                VERSION: "1.0.0",
-                LAYERS: "ch.bafu.showme-gemeinden_lawinen",
-                FORMAT: "image/png"
-            },
->>>>>>> 6cea9be7df024591c8889c9232bf24291c18092e
         })
     });
 
@@ -39,15 +27,10 @@ $(document).ready(function () {
             imagerySet: 'Aerial'
         })
     });
-<<<<<<< HEAD
 
     map.addLayer(layerBingMapsSat);
     map.addLayer(layerBingMapsRoad);
-=======
-    layerOSM.setOpacity(0.4);
-    map.addLayer(layerBingMaps);
-    map.addLayer(layerOSM);
->>>>>>> 6cea9be7df024591c8889c9232bf24291c18092e
+
     /**
      * View
      * @type {ol.View}
