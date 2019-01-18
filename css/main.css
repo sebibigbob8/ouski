@@ -1,0 +1,16 @@
+#map {
+    width: 80%;
+    height: 100%;
+    float: left;
+}
+
+#informations {
+    width: 15%;
+    margin-left: 5%;
+    float: left;
+}
+#container{
+    width: 100%;
+    margin: auto;
+    padding: 10px;
+}
