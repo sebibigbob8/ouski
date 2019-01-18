@@ -12,26 +12,24 @@ $(document).ready(function () {
         target: 'map'
     });
 
-    var layerOSM = new ol.layer.Image({
-        title: "Lakes",
-        source: new ol.source.ImageWMS({
-            url: chWMS,
-            params: {
-                VERSION: "1.0.0",
-                LAYERS: "ch.bafu.showme-gemeinden_lawinen",
-                FORMAT: "image/png"
-            },
-        })
-    });
-    var layerBingMaps = new ol.layer.Tile({
+    var layerBingMapsRoad = new ol.layer.Tile({
+        title: "Plan",
         source: new ol.source.BingMaps({
             key: 'AqE05oJsq-bWa50FPOW2S0eQm9Oqqygc1VTi_WPhUIoKR_-jgA559CRbfndgWAIz',
             imagerySet: 'Road'
         })
     });
-    layerOSM.setOpacity(0.4);
-    map.addLayer(layerBingMaps);
-    map.addLayer(layerOSM);
+
+    var layerBingMapsSat = new ol.layer.Tile({
+        title: "Satelite",
+        source: new ol.source.BingMaps({
+            key: 'AqE05oJsq-bWa50FPOW2S0eQm9Oqqygc1VTi_WPhUIoKR_-jgA559CRbfndgWAIz',
+            imagerySet: 'Aerial'
+        })
+    });
+
+    map.addLayer(layerBingMapsSat);
+    map.addLayer(layerBingMapsRoad);
     /**
      * View
      * @type {ol.View}
@@ -41,16 +39,7 @@ $(document).ready(function () {
     v2.setCenter(cbox);
     v2.setZoom(10);
     map.setView(v2);
-    var iconNormalStyle = new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 0.5],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 0.75,
-            src: './images/placeholder.png',
-            scale: 0.1
-        }))
-    });
+
 
 
 
@@ -253,6 +242,16 @@ $(document).ready(function () {
             opacity: 0.75,
             src: './images/placeholder.png',
             scale: 0.2
+        }))
+    });
+    var iconNormalStyle = new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+            anchor: [0.5, 0.5],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            opacity: 0.75,
+            src: './images/placeholder.png',
+            scale: 0.1
         }))
     });
 });
