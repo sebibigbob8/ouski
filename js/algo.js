@@ -134,14 +134,43 @@ $(document).ready(function () {
                 if(lastFeature != "")
                     lastFeature.setStyle(iconNormalStyle);
                 let feature = e.selected[0];
-                console.log("feature",feature);
+                $('#station').text(feature.values_.name);
+                //Currently
                 $('#temperature').text(feature.values_.temperature);
                 $('#visibility').text(feature.values_.visibility);
                 $('#windSpeed').text(feature.values_.windSpeed);
                 $('#precip').text(feature.values_.precipitation);
                 $('#precipProbability').text(feature.values_.precipitationProbability);
-                $('#station').text(feature.values_.name);
-                $('.spanInfo').show();
+                $('#summary').text(feature.values_.summary);
+                $('#icon').attr('src',feature.values_.icon);
+                //Today
+                $('#temperatureToday').text(feature.values_.temperatureToday);
+                $('#visibilityToday').text(feature.values_.visibilityToday);
+                $('#windSpeedToday').text(feature.values_.windSpeedToday);
+                $('#precipToday').text(feature.values_.precipitationToday);
+                $('#precipProbabilityToday').text(feature.values_.precipitationProbabilityToday);
+                $('#summaryToday').text(feature.values_.summaryToday);
+                $('#iconToday').attr('src',feature.values_.iconToday);
+                //nextday
+                $('#temperatureNext1').text(feature.values_.temperatureNext1);
+                $('#visibilityNext1').text(feature.values_.visibilityNext1);
+                $('#windSpeedNext1').text(feature.values_.windSpeedNext1);
+                $('#precipNext1').text(feature.values_.precipitationNext1);
+                $('#precipProbabilityNext1').text(feature.values_.precipitationProbabilityNext1);
+                $('#summaryNext1').text(feature.values_.summaryNext1);
+                $('#iconNext1').attr('src',feature.values_.iconNext1);
+                //nextday2
+                $('#temperatureNext2').text(feature.values_.temperatureNext2);
+                $('#visibilityNext2').text(feature.values_.visibilityNext2);
+                $('#windSpeedNext2').text(feature.values_.windSpeedNext2);
+                $('#precipNext2').text(feature.values_.precipitationNext2);
+                $('#precipProbabilityNext2').text(feature.values_.precipitationProbabilityNext2);
+                $('#summaryNext2').text(feature.values_.summaryNext2);
+                $('#iconNext2').attr('src',feature.values_.iconNext2);
+                //Week
+                $('#summaryWeek').text(feature.values_.summaryWeek);
+                
+                $('.divInfo').show();
                 var ext = feature.getGeometry().getExtent();
                 var center = ol.extent.getCenter(ext);
 
@@ -171,15 +200,47 @@ $(document).ready(function () {
      * @returns {ol.Feature}
      */
     function createMarker(result, key) {
-        let weatherData = result.currently;
+        let currently = result.currently;
+        let thisDay = result.daily.data[1];
+        let nextDay1 = result.daily.data[2];
+        let nextDay2 = result.daily.data[3];
         var iconFeature = new ol.Feature({
             geometry: new ol.geom.Point([key.long, key.lat]),
             name: key.name,
-            temperature: weatherData.temperature,
-            windSpeed: weatherData.windSpeed, // m/s
-            visibility: weatherData.visibility, // KM
-            precipitation: weatherData.precipIntensity,// mm/h
-            precipitationProbability: weatherData.precipProbability // %
+            //Currently
+            temperature: currently.temperature,
+            windSpeed: currently.windSpeed, // m/s
+            visibility: currently.visibility, // KM
+            precipitation: currently.precipIntensity,// mm/h
+            precipitationProbability: currently.precipProbability, // %
+            summary: currently.summary,
+            icon: `./images/${currently.icon}.png`,
+            //Today
+            summaryToday: thisDay.summary,
+            temperatureToday: thisDay.temperature,
+            windSpeedToday: thisDay.windSpeed, // m/s
+            visibilityToday: thisDay.visibility, // KM
+            precipitationToday: thisDay.precipIntensity,// mm/h
+            precipitationProbabilityToday: thisDay.precipProbability, // %
+            iconToday: `./images/${thisDay.icon}.png`,
+            //Next day
+            summaryNext1: nextDay1.summary,
+            temperatureNext1: nextDay1.temperature,
+            windSpeedNext1: nextDay1.windSpeed, // m/s
+            visibilityNext1: nextDay1.visibility, // KM
+            precipitationNext1: nextDay1.precipIntensity,// mm/h
+            precipitationProbabilityNext1: nextDay1.precipProbability, // %
+            iconNext1: `./images/${nextDay1.icon}.png`,
+            //Next day 2
+            summaryNext2: nextDay1.summary,
+            temperatureNext2: nextDay1.temperature,
+            windSpeedNext2: nextDay1.windSpeed, // m/s
+            visibilityNext2: nextDay1.visibility, // KM
+            precipitationNext2: nextDay1.precipIntensity,// mm/h
+            precipitationProbabilityNext2: nextDay1.precipProbability, // %
+            iconNext2: `./images/${nextDay1.icon}.png`,
+            //Week
+            summaryWeek: result.daily.summary
         });
         iconFeature.setStyle(iconNormalStyle);
         return iconFeature;

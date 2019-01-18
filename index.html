@@ -11,13 +11,51 @@
 <body>
 <div id="container">
     <div id="map"></div>
-    <div id="informations">
-        <span class='spanInfo' id="temperature" hidden> </span><br>
-        <span class='spanInfo' id="windSpeed" hidden> </span><br>
-        <span class='spanInfo' id="visibility" hidden></span><br>
-        <span class='spanInfo' id="precip" hidden></span><br>
-        <span class='spanInfo' id="precipProbability" hidden></span><br>
-        <span class='spanInfo' id="station" hidden></span>
+    <div id="informationsWeek" class="divInfo" hidden>
+        <span id="summaryWeek"></span>
+    </div>
+    <div id="informations" class="divInfo" hidden>
+        <span class='spanInfo' id="temperature"> </span><br>
+        <span class='spanInfo' id="windSpeed"> </span><br>
+        <span class='spanInfo' id="visibility"></span><br>
+        <span class='spanInfo' id="precip"></span><br>
+        <span class='spanInfo' id="precipProbability"></span><br>
+        <span class='spanInfo' id="station"></span>
+        <span class='spanInfo' id="summary"></span>
+        <img class='spanInfo' id="icon" src="">
+    </div>
+    <div id="informationsToday" class="divInfo" hidden>
+        <span class='spanInfo' id="temperatureToday"> </span><br>
+        <span class='spanInfo' id="windSpeedToday"> </span><br>
+        <span class='spanInfo' id="visibilityToday"></span><br>
+        <span class='spanInfo' id="precipToday"></span><br>
+        <span class='spanInfo' id="precipProbabilityToday"></span><br>
+        <span class='spanInfo' id="stationToday"></span>
+        <span class='spanInfo' id="summaryToday"></span>
+        <span class='spanInfo' id="summary1Today"></span>
+        <img class='spanInfo' id="iconToday" src="">
+    </div>
+    <div id="informationsNext1" class="divInfo" hidden>
+        <span class='spanInfo' id="temperatureNext1"> </span><br>
+        <span class='spanInfo' id="windSpeedNext1"> </span><br>
+        <span class='spanInfo' id="visibilityNext1"></span><br>
+        <span class='spanInfo' id="precipNext1"></span><br>
+        <span class='spanInfo' id="precipProbabilityNext1"></span><br>
+        <span class='spanInfo' id="stationNext1"></span>
+        <span class='spanInfo' id="summaryNext1"></span>
+        <span class='spanInfo' id="summary1Next1"></span>
+        <img class='spanInfo' id="iconNext1" src="">
+    </div>
+    <div id="informationsNext2" class="divInfo" hidden>
+        <span class='spanInfo' id="temperatureNext2"> </span><br>
+        <span class='spanInfo' id="windSpeedNext2"> </span><br>
+        <span class='spanInfo' id="visibilityNext2"></span><br>
+        <span class='spanInfo' id="precipNext2"></span><br>
+        <span class='spanInfo' id="precipProbabilityNext2"></span><br>
+        <span class='spanInfo' id="stationNext2"></span>
+        <span class='spanInfo' id="summaryNext2"></span>
+        <span class='spanInfo' id="summary1Next2"></span>
+        <img class='spanInfo' id="iconNext2" src="">
     </div>
 </div>
 </body>
