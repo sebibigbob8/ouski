@@ -100,11 +100,16 @@ $(document).ready(function () {
 
         let response2 = await $.getJSON(`https://sebibigbob8.carto.com/api/v2/sql/?q=select * from stations`);
         let keys = Object.values(response2.rows);
+        let test;
+        //Pour chaque station, créer un markeur
         for (const key of keys) {
-            let urlWeather = `${darksky}/${key.lat},${key.long}?exclude=hourly,daily,flags&units=si`;
+            let urlWeather = `${darksky}/${key.lat},${key.long}?exclude=flags&units=si`;
             let result = await doCORSRequest({url: urlWeather});
+            test = result;
             labelFeatures.push(createMarker(result, key));
         }
+        console.log("data",test.daily);
+        console.log("data",test.daily.data[2]);
         //label
         var vectorSource = new ol.source.Vector({
             features: labelFeatures //add an array of features
@@ -166,7 +171,7 @@ $(document).ready(function () {
      * @returns {ol.Feature}
      */
     function createMarker(result, key) {
-        let weatherData = result.currently
+        let weatherData = result.currently;
         var iconFeature = new ol.Feature({
             geometry: new ol.geom.Point([key.long, key.lat]),
             name: key.name,
