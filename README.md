@@ -1,13 +1,13 @@
-#Ouski
+# Ouski
 :sunny:
 
-##Description
+# # Description
 Application permettant de connaître différentes informations météorologiques concernant des stations de ski.
 Ce projet est réalisé dans le cursus de formation en ingénierie des médias, cours GeoINF, @HEIG-VD.
 
 :umbrella:
 
-##Critères d'évaluations
+# # Critères d'évaluations
 Fabriquer une application de cartographie en ligne intégrant :
     -au moins deux couches de références à choix pour l'utilisateur
     -des couches en superpositions qui viennent enrichir la visualisation en pertinence avec la thématique
@@ -18,7 +18,7 @@ Fabriquer une application de cartographie en ligne intégrant :
 :cloud:
 
 
-##Consigne d'utilisation
+# # Consigne d'utilisation
 Afin d'obtenir les données météorologiques, l'application fait appel à l'API [DarkSky](https://darksky.net).
 La clé utilisée ici a un nombre d'appel maximum de 1000.
 
