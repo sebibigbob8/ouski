@@ -134,6 +134,7 @@ $(document).ready(function () {
                 $('#windSpeed').text(feature.values_.windSpeed);
                 $('#precip').text(feature.values_.precipitation);
                 $('#precipProbability').text(feature.values_.precipitationProbability);
+                $('#station').text(feature.values_.name);
                 $('.spanInfo').show();
                 var ext = feature.getGeometry().getExtent();
                 var center = ol.extent.getCenter(ext);
@@ -146,6 +147,7 @@ $(document).ready(function () {
                 feature.setStyle(iconSelectStyle);
                 lastFeature=feature;
             }
+            console.log(+new Date(),new Date());
         });
 
     }, 1000);
