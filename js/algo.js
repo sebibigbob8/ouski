@@ -61,7 +61,7 @@ $(document).ready(function () {
             test = result;
             labelFeatures.push(createMarker(result, key));
         }
-        //label
+        //Create the labelLayer
         var vectorSource = new ol.source.Vector({
             features: labelFeatures //add an array of features
         });
@@ -82,7 +82,7 @@ $(document).ready(function () {
         let lastFeature = "";
         selectInteraction.on('select', function (e) {
             if (e.selected.length < 1)
-                console.warn("None feature selected")
+                return;
             if (lastFeature != "")
                 lastFeature.setStyle(iconNormalStyle);
             let feature = e.selected[0];
@@ -134,27 +134,38 @@ $(document).ready(function () {
             }));
             feature.setStyle(iconSelectStyle);
             lastFeature = feature;
-            /**Navbar
-             *
+            /**
+             *Navbar
              */
-            $('#currentlyNav').click(e=>{
+            $('#currentlyNav').click(e => {
                 $('.divInfo').hide();
                 $('#informations').show();
             })
-            $('#todayNav').click(e=>{
+            $('#todayNav').click(e => {
                 $('.divInfo').hide();
                 $('#informationsToday').show();
             })
-            $('#nextDayNav').click(e=>{
+            $('#nextDayNav').click(e => {
                 $('.divInfo').hide();
                 $('#informationsNext1').show();
             })
-            $('#nextDay2Nav').click(e=>{
+            $('#nextDay2Nav').click(e => {
                 $('.divInfo').hide();
                 $('#informationsNext2').show();
             })
+            /**
+             *
+             */
+            var satInteraction = new ol.interaction.Select({
+                condition: ol.events.condition.singleClick,
+                // the interactive layers on which the selection is possible (they may be more than one)
+                layers: [layerBingMapsSat,layerBingMapsRoad]
+            });
+            map.addInteraction(satInteraction);
+            satInteraction.on('select', function (e) {
+                console.log("Miaow Miaow Nigga");
+            });
         });
-
 
 
     }, 1000);
@@ -162,7 +173,6 @@ $(document).ready(function () {
      * LayerSwitcher
      */
     var layerSwitcher = new ol.control.LayerSwitcher();
-
     map.addControl(layerSwitcher);
 
     /**
@@ -238,5 +248,4 @@ $(document).ready(function () {
             scale: 0.1
         }))
     });
-
 });
