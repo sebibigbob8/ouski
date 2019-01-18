@@ -1,3 +1,4 @@
+//Todo: Clean code, Readme, AntiBug,
 $(document).ready(function () {
     //Kaufy**************************************************************************************
     /**
@@ -41,44 +42,6 @@ $(document).ready(function () {
     map.setView(v2);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //SEB**************************************************************************************
     /**
      * Get all the ski stations and draw them.
@@ -87,7 +50,7 @@ $(document).ready(function () {
     setTimeout(async () => {
         var labelFeatures = [];
 
-        let response2 = await $.getJSON(`https://sebibigbob8.carto.com/api/v2/sql/?q=select * from stations`);
+        let response2 = await $.getJSON(`https://sebibigbob8.carto.com/api/v2/sql/?q=select * from stations where lat=46.1851`);
         let keys = Object.values(response2.rows);
         let test;
         //Pour chaque station, créer un markeur
@@ -97,8 +60,6 @@ $(document).ready(function () {
             test = result;
             labelFeatures.push(createMarker(result, key));
         }
-        console.log("data",test.daily);
-        console.log("data",test.daily.data[2]);
         //label
         var vectorSource = new ol.source.Vector({
             features: labelFeatures //add an array of features
@@ -120,7 +81,7 @@ $(document).ready(function () {
         let lastFeature = "";
         selectInteraction.on('select', function (e) {
             if (e.selected.length > 0) {
-                if(lastFeature != "")
+                if (lastFeature != "")
                     lastFeature.setStyle(iconNormalStyle);
                 let feature = e.selected[0];
                 $('#station').text(feature.values_.name);
@@ -131,7 +92,7 @@ $(document).ready(function () {
                 $('#precip').text(feature.values_.precipitation);
                 $('#precipProbability').text(feature.values_.precipitationProbability);
                 $('#summary').text(feature.values_.summary);
-                $('#icon').attr('src',feature.values_.icon);
+                $('#icon').attr('src', feature.values_.icon);
                 //Today
                 $('#temperatureToday').text(feature.values_.temperatureToday);
                 $('#visibilityToday').text(feature.values_.visibilityToday);
@@ -139,7 +100,7 @@ $(document).ready(function () {
                 $('#precipToday').text(feature.values_.precipitationToday);
                 $('#precipProbabilityToday').text(feature.values_.precipitationProbabilityToday);
                 $('#summaryToday').text(feature.values_.summaryToday);
-                $('#iconToday').attr('src',feature.values_.iconToday);
+                $('#iconToday').attr('src', feature.values_.iconToday);
                 //nextday
                 $('#temperatureNext1').text(feature.values_.temperatureNext1);
                 $('#visibilityNext1').text(feature.values_.visibilityNext1);
@@ -147,7 +108,7 @@ $(document).ready(function () {
                 $('#precipNext1').text(feature.values_.precipitationNext1);
                 $('#precipProbabilityNext1').text(feature.values_.precipitationProbabilityNext1);
                 $('#summaryNext1').text(feature.values_.summaryNext1);
-                $('#iconNext1').attr('src',feature.values_.iconNext1);
+                $('#iconNext1').attr('src', feature.values_.iconNext1);
                 //nextday2
                 $('#temperatureNext2').text(feature.values_.temperatureNext2);
                 $('#visibilityNext2').text(feature.values_.visibilityNext2);
@@ -155,10 +116,10 @@ $(document).ready(function () {
                 $('#precipNext2').text(feature.values_.precipitationNext2);
                 $('#precipProbabilityNext2').text(feature.values_.precipitationProbabilityNext2);
                 $('#summaryNext2').text(feature.values_.summaryNext2);
-                $('#iconNext2').attr('src',feature.values_.iconNext2);
+                $('#iconNext2').attr('src', feature.values_.iconNext2);
                 //Week
                 $('#summaryWeek').text(feature.values_.summaryWeek);
-                
+
                 $('.divInfo').show();
                 var ext = feature.getGeometry().getExtent();
                 var center = ol.extent.getCenter(ext);
@@ -169,9 +130,9 @@ $(document).ready(function () {
                     zoom: 12
                 }));
                 feature.setStyle(iconSelectStyle);
-                lastFeature=feature;
+                lastFeature = feature;
             }
-            console.log(+new Date(),new Date());
+
         });
 
     }, 1000);
@@ -234,6 +195,7 @@ $(document).ready(function () {
         iconFeature.setStyle(iconNormalStyle);
         return iconFeature;
     }
+
     var iconSelectStyle = new ol.style.Style({
         image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
             anchor: [0.5, 0.5],
@@ -255,5 +217,3 @@ $(document).ready(function () {
         }))
     });
 });
-
-
