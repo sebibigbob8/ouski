@@ -82,4 +82,4 @@ function showExtent(bbox) {
 }
 
 //Api darkSky key
-var darksky = 'https://api.darksky.net/forecast/e8b7b11bdcb547cb506e922bf5ebd041';
+var darksky = 'https://api.darksky.net/forecast/575865c1909ad6b768fb6c623f2f7884';

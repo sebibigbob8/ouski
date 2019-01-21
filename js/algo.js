@@ -1,4 +1,3 @@
-//Todo: Clean code, Readme, AntiBug,
 $(document).ready(function () {
     //Kaufy**************************************************************************************
     /**
@@ -13,11 +12,16 @@ $(document).ready(function () {
         target: 'map'
     });
 
-    var layerBingMapsRoad = new ol.layer.Tile({
-        title: "Plan",
-        source: new ol.source.BingMaps({
-            key: 'AqE05oJsq-bWa50FPOW2S0eQm9Oqqygc1VTi_WPhUIoKR_-jgA559CRbfndgWAIz',
-            imagerySet: 'Road'
+    var layerOSM = new ol.layer.Image({
+        title: "Avalanche",
+        opacity: 0.5,
+        source: new ol.source.ImageWMS({
+            url: chWMS,
+            params: {
+                VERSION: "1.0.0",
+                LAYERS: "ch.bafu.showme-gemeinden_lawinen",
+                FORMAT: "image/png"
+            },
         })
     });
 
@@ -29,18 +33,65 @@ $(document).ready(function () {
         })
     });
 
-    map.addLayer(layerBingMapsSat);
-    map.addLayer(layerBingMapsRoad);
+    var layerBingMapsRoad = new ol.layer.Tile({
+        title: "Plan",
+        source: new ol.source.BingMaps({
+            key: 'AqE05oJsq-bWa50FPOW2S0eQm9Oqqygc1VTi_WPhUIoKR_-jgA559CRbfndgWAIz',
+            imagerySet: 'Road'
+        })
+    });
 
+    map.addLayer(layerBingMapsRoad);
+    map.addLayer(layerBingMapsSat);
+    map.addLayer(layerOSM);
+    
     /**
      * View
      * @type {ol.View}
      */
-    var v2 = new ol.View({projection: "EPSG:4326"});
-    var cbox = [6.926040, 46.398030]; // Focus on Villeneuve
+    var v2 = new ol.View({ projection: "EPSG:4326" });
+    var cbox = [7.396220, 46.295610]; // Focus on Veysonnaz
     v2.setCenter(cbox);
     v2.setZoom(10);
     map.setView(v2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     //SEB**************************************************************************************
@@ -50,18 +101,20 @@ $(document).ready(function () {
      */
     setTimeout(async () => {
         var labelFeatures = [];
-
-        let response2 = await $.getJSON(`https://sebibigbob8.carto.com/api/v2/sql/?q=select * from stations where lat=46.1851`);
+        //let response2 = await $.getJSON(`https://sebibigbob8.carto.com/api/v2/sql/?q=select * from stations where name="Zermatt"`);
+        let response2 = await $.getJSON(`https://sebibigbob8.carto.com/api/v2/sql/?q=select * from stations`);
         let keys = Object.values(response2.rows);
         let test;
         //Pour chaque station, créer un markeur
         for (const key of keys) {
             let urlWeather = `${darksky}/${key.lat},${key.long}?exclude=flags&units=si`;
-            let result = await doCORSRequest({url: urlWeather});
+            let result = await doCORSRequest({ url: urlWeather });
             test = result;
             labelFeatures.push(createMarker(result, key));
         }
-        //Create the labelLayer
+        console.log("data", test.daily);
+        console.log("data", test.daily.data[2]);
+        //label
         var vectorSource = new ol.source.Vector({
             features: labelFeatures //add an array of features
         });
@@ -81,98 +134,113 @@ $(document).ready(function () {
          */
         let lastFeature = "";
         selectInteraction.on('select', function (e) {
-            if (e.selected.length < 1)
-                return;
-            if (lastFeature != "")
-                lastFeature.setStyle(iconNormalStyle);
-            let feature = e.selected[0];
+            if (e.selected.length > 0) {
+                if (lastFeature != "")
+                    lastFeature.setStyle(iconNormalStyle);
+                let feature = e.selected[0];
+                $('#station').text(feature.values_.name);
+                //Currently
+                $('#temperature').text(Math.round(feature.values_.temperature));
+                $('#visibility').text(Math.round(feature.values_.visibility) + "km");
+                $('#windSpeed').text(Math.round(feature.values_.windSpeed) + "m/s");
+                $('#precip').text(Math.round(feature.values_.precipitation) + "mm/h");
+                $('#precipProbability').text(Math.round(feature.values_.precipitationProbability) + "%");
+                $('#summary').text(feature.values_.summary);
+                $('#icon').attr('src', feature.values_.icon);
+                //Today
+                $('#temperatureToday').text(Math.round(feature.values_.temperatureToday));
+                $('#visibilityToday').text(Math.round(feature.values_.visibilityToday) + "km");
+                $('#windSpeedToday').text(Math.round(feature.values_.windSpeedToday) + "m/s");
+                $('#precipToday').text(Math.round(feature.values_.precipitationToday) + "mm/h");
+                $('#precipProbabilityToday').text(Math.round(feature.values_.precipitationProbabilityToday) + "%");
+                $('#summaryToday').text(feature.values_.summaryToday);
+                $('#iconToday').attr('src', feature.values_.iconToday);
+                //nextday
+                $('#temperatureNext1').text(Math.round(feature.values_.temperatureNext1));
+                $('#visibilityNext1').text(Math.round(feature.values_.visibilityNext1) + "km");
+                $('#windSpeedNext1').text(Math.round(feature.values_.windSpeedNext1) + "m/s");
+                $('#precipNext1').text(Math.round(feature.values_.precipitationNext1) + "mm/h");
+                $('#precipProbabilityNext1').text(Math.round(feature.values_.precipitationProbabilityNext1) + "%");
+                $('#summaryNext1').text(feature.values_.summaryNext1);
+                $('#iconNext1').attr('src', feature.values_.iconNext1);
+                //nextday2
+                $('#temperatureNext2').text(Math.round(feature.values_.temperatureNext2));
+                $('#visibilityNext2').text(Math.round(feature.values_.visibilityNext2) + "km");
+                $('#windSpeedNext2').text(Math.round(feature.values_.windSpeedNext2) + "m/s");
+                $('#precipNext2').text(Math.round(feature.values_.precipitationNext2) + "mm/h");
+                $('#precipProbabilityNext2').text(Math.round(feature.values_.precipitationProbabilityNext2) + "%");
+                $('#summaryNext2').text(feature.values_.summaryNext2);
+                $('#iconNext2').attr('src', feature.values_.iconNext2);
+                //Week
+                $('#summaryWeek').text(feature.values_.summaryWeek);
 
-            $('#station').text(feature.values_.name);
-            //Currently
-            $('#temperature').text(feature.values_.temperature);
-            $('#visibility').text(feature.values_.visibility);
-            $('#windSpeed').text(feature.values_.windSpeed);
-            $('#precip').text(feature.values_.precipitation);
-            $('#precipProbability').text(feature.values_.precipitationProbability);
-            $('#summary').text(feature.values_.summary);
-            $('#icon').attr('src', feature.values_.icon);
-            //Today
-            $('#temperatureToday').text(feature.values_.temperatureToday);
-            $('#visibilityToday').text(feature.values_.visibilityToday);
-            $('#windSpeedToday').text(feature.values_.windSpeedToday);
-            $('#precipToday').text(feature.values_.precipitationToday);
-            $('#precipProbabilityToday').text(feature.values_.precipitationProbabilityToday);
-            $('#summaryToday').text(feature.values_.summaryToday);
-            $('#iconToday').attr('src', feature.values_.iconToday);
-            //nextday
-            $('#temperatureNext1').text(feature.values_.temperatureNext1);
-            $('#visibilityNext1').text(feature.values_.visibilityNext1);
-            $('#windSpeedNext1').text(feature.values_.windSpeedNext1);
-            $('#precipNext1').text(feature.values_.precipitationNext1);
-            $('#precipProbabilityNext1').text(feature.values_.precipitationProbabilityNext1);
-            $('#summaryNext1').text(feature.values_.summaryNext1);
-            $('#iconNext1').attr('src', feature.values_.iconNext1);
-            //nextday2
-            $('#temperatureNext2').text(feature.values_.temperatureNext2);
-            $('#visibilityNext2').text(feature.values_.visibilityNext2);
-            $('#windSpeedNext2').text(feature.values_.windSpeedNext2);
-            $('#precipNext2').text(feature.values_.precipitationNext2);
-            $('#precipProbabilityNext2').text(feature.values_.precipitationProbabilityNext2);
-            $('#summaryNext2').text(feature.values_.summaryNext2);
-            $('#iconNext2').attr('src', feature.values_.iconNext2);
-            //Week
-            $('#summaryWeek').text(feature.values_.summaryWeek);
-            //Show
-            $('#informations').show();
-            var ext = feature.getGeometry().getExtent();
-            var center = ol.extent.getCenter(ext);
-
-            map.setView(new ol.View({
-                projection: 'EPSG:4326',
-                center: [center[0], center[1]],//zoom to the center of the feature
-                zoom: 12
-            }));
-            feature.setStyle(iconSelectStyle);
-            lastFeature = feature;
-            /**
-             *Navbar
-             */
-            $('#currentlyNav').click(e => {
-                $('.divInfo').hide();
                 $('#informations').show();
-            })
-            $('#todayNav').click(e => {
-                $('.divInfo').hide();
-                $('#informationsToday').show();
-            })
-            $('#nextDayNav').click(e => {
-                $('.divInfo').hide();
-                $('#informationsNext1').show();
-            })
-            $('#nextDay2Nav').click(e => {
-                $('.divInfo').hide();
-                $('#informationsNext2').show();
-            })
-            /**
-             *
-             */
-            var satInteraction = new ol.interaction.Select({
-                condition: ol.events.condition.singleClick,
-                // the interactive layers on which the selection is possible (they may be more than one)
-                layers: [layerBingMapsSat,layerBingMapsRoad]
-            });
-            map.addInteraction(satInteraction);
-            satInteraction.on('select', function (e) {
-                console.log("Miaow Miaow Nigga");
-            });
-        });
+                var ext = feature.getGeometry().getExtent();
+                var center = ol.extent.getCenter(ext);
 
+                map.setView(new ol.View({
+                    projection: 'EPSG:4326',
+                    center: [center[0], center[1]],//zoom to the center of the feature
+                    zoom: 12
+                }));
+                feature.setStyle(iconSelectStyle);
+                lastFeature = feature;
+
+                /*Navbar*/
+                $('#currentlyNav').click(e => {
+                    $('.divInfo').hide();
+                    $('#informations').show();
+                });
+                $('#todayNav').click(e => {
+                    $('.divInfo').hide();
+                    $('#informationsToday').show();
+                });
+                $('#nextDayNav').click(e => {
+                    $('.divInfo').hide();
+                    $('#informationsNext1').show();
+                });
+                $('#nextDay2Nav').click(e => {
+                    $('.divInfo').hide();
+                    $('#informationsNext2').show();
+                });
+
+                /* 
+                $('#currentlyNav').click(function(){
+                    $(this).toggleClass('clicked');
+                    $("#todayNav").toggleClass('toggleOut');
+                    $("#nextDayNav").toggleClass('toggleOut');
+                    $("#nextDay2Nav").toggleClass('toggleOut');
+                });
+                $('#todayNav').click(function(){
+                    $(this).toggleClass('clicked');
+                    $("#currentlyNav").toggleClass('toggleOut');
+                    $("#nextDayNav").toggleClass('toggleOut');
+                    $("#nextDay2Nav").toggleClass('toggleOut');
+                });
+                $('#nextDayNav').click(function(){
+                    $(this).toggleClass('clicked');
+                    $("#currentlyNav").toggleClass('toggleOut');
+                    $("#nextDayNav").toggleClass('toggleOut');
+                    $("#nextDay2Nav").toggleClass('toggleOut');
+                });
+                $('#nextDay2Nav').click(function(){
+                    $(this).toggleClass('clicked');
+                    $("#todayNav").toggleClass('toggleOut');
+                    $("#nextDayNav").toggleClass('toggleOut');
+                    $("#currentlyNav").toggleClass('toggleOut');
+                });*/
+
+
+            }
+            console.log(+new Date(), new Date());
+        });
 
     }, 1000);
     /**
      * LayerSwitcher
      */
     var layerSwitcher = new ol.control.LayerSwitcher();
+
     map.addControl(layerSwitcher);
 
     /**
@@ -184,11 +252,14 @@ $(document).ready(function () {
     function createMarker(result, key) {
         let currently = result.currently;
         let thisDay = result.daily.data[1];
+        console.log("today",thisDay.temperature);
         let nextDay1 = result.daily.data[2];
         let nextDay2 = result.daily.data[3];
         var iconFeature = new ol.Feature({
             geometry: new ol.geom.Point([key.long, key.lat]),
             name: key.name,
+            //Week
+            summaryWeek: result.daily.summary,
             //Currently
             temperature: currently.temperature,
             windSpeed: currently.windSpeed, // m/s
@@ -199,7 +270,7 @@ $(document).ready(function () {
             icon: `./images/${currently.icon}.png`,
             //Today
             summaryToday: thisDay.summary,
-            temperatureToday: thisDay.temperature,
+            temperatureToday: (thisDay.temperatureHigh+thisDay.temperatureLow)/2,
             windSpeedToday: thisDay.windSpeed, // m/s
             visibilityToday: thisDay.visibility, // KM
             precipitationToday: thisDay.precipIntensity,// mm/h
@@ -207,45 +278,45 @@ $(document).ready(function () {
             iconToday: `./images/${thisDay.icon}.png`,
             //Next day
             summaryNext1: nextDay1.summary,
-            temperatureNext1: nextDay1.temperature,
+            temperatureNext1: (nextDay1.temperatureHigh+nextDay1.temperatureLow)/2,
             windSpeedNext1: nextDay1.windSpeed, // m/s
             visibilityNext1: nextDay1.visibility, // KM
             precipitationNext1: nextDay1.precipIntensity,// mm/h
             precipitationProbabilityNext1: nextDay1.precipProbability, // %
             iconNext1: `./images/${nextDay1.icon}.png`,
             //Next day 2
-            summaryNext2: nextDay2.summary,
-            temperatureNext2: nextDay2.temperature,
-            windSpeedNext2: nextDay2.windSpeed, // m/s
-            visibilityNext2: nextDay2.visibility, // KM
-            precipitationNext2: nextDay2.precipIntensity,// mm/h
-            precipitationProbabilityNext2: nextDay2.precipProbability, // %
-            iconNext2: `./images/${nextDay2.icon}.png`,
-            //Week
-            summaryWeek: result.daily.summary
+            summaryNext2: nextDay1.summary,
+            temperatureNext2: (nextDay2.temperatureHigh+nextDay2.temperatureLow)/2,
+            windSpeedNext2: nextDay1.windSpeed, // m/s
+            visibilityNext2: nextDay1.visibility, // KM
+            precipitationNext2: nextDay1.precipIntensity,// mm/h
+            precipitationProbabilityNext2: nextDay1.precipProbability, // %
+            iconNext2: `./images/${nextDay1.icon}.png`
+            
         });
         iconFeature.setStyle(iconNormalStyle);
         return iconFeature;
     }
-
     var iconSelectStyle = new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
             anchor: [0.5, 0.5],
             anchorXUnits: 'fraction',
             anchorYUnits: 'pixels',
             opacity: 0.75,
-            src: './images/placeholder.png',
-            scale: 0.2
-        }))
-    });
-    var iconNormalStyle = new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 0.5],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 0.75,
-            src: './images/placeholder.png',
+            src: './images/place.png',
             scale: 0.1
         }))
     });
+    var iconNormalStyle = new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+            anchor: [0.5, 0.5],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            opacity: 0.75,
+            src: './images/place.png',
+            scale: 0.05
+        }))
+    });
 });
+
+
