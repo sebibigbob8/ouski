@@ -173,7 +173,7 @@ $(document).ready(function () {
                 $('#iconNext2').attr('src', feature.values_.iconNext2);
                 //Week
                 $('#summaryWeek').text(feature.values_.summaryWeek);
-
+                $('.divInfo').hide();
                 $('#informations').show();
                 var ext = feature.getGeometry().getExtent();
                 var center = ol.extent.getCenter(ext);
@@ -204,31 +204,6 @@ $(document).ready(function () {
                     $('#informationsNext2').show();
                 });
 
-                /* 
-                $('#currentlyNav').click(function(){
-                    $(this).toggleClass('clicked');
-                    $("#todayNav").toggleClass('toggleOut');
-                    $("#nextDayNav").toggleClass('toggleOut');
-                    $("#nextDay2Nav").toggleClass('toggleOut');
-                });
-                $('#todayNav').click(function(){
-                    $(this).toggleClass('clicked');
-                    $("#currentlyNav").toggleClass('toggleOut');
-                    $("#nextDayNav").toggleClass('toggleOut');
-                    $("#nextDay2Nav").toggleClass('toggleOut');
-                });
-                $('#nextDayNav').click(function(){
-                    $(this).toggleClass('clicked');
-                    $("#currentlyNav").toggleClass('toggleOut');
-                    $("#nextDayNav").toggleClass('toggleOut');
-                    $("#nextDay2Nav").toggleClass('toggleOut');
-                });
-                $('#nextDay2Nav').click(function(){
-                    $(this).toggleClass('clicked');
-                    $("#todayNav").toggleClass('toggleOut');
-                    $("#nextDayNav").toggleClass('toggleOut');
-                    $("#currentlyNav").toggleClass('toggleOut');
-                });*/
 
 
             }
