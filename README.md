@@ -19,3 +19,6 @@ Fabriquer une application de cartographie en ligne intégrant :
 Afin d'obtenir les données météorologiques, l'application fait appel à l'API [DarkSky](https://darksky.net).
 La clé utilisée ici a un nombre d'appel maximum de 1000.
 
+## Schéma d'infrastructure
+
+
