@@ -21,6 +21,6 @@ La clé utilisée ici a un nombre d'appel maximum de 1000.
 
 ## Schéma d'infrastructure
 
-![alt text](https://github.com/sebibigbob8/ouski/blob/master/images/husky_.png)
+![alt text](https://github.com/sebibigbob8/ouski/blob/master/images/infra.PNG)
       
 
