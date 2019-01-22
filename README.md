@@ -21,4 +21,6 @@ La clé utilisée ici a un nombre d'appel maximum de 1000.
 
 ## Schéma d'infrastructure
 
+![alt text](ouski/images/husky_.png)
+      
 
