@@ -66,7 +66,7 @@ var unWFS = "http://preview.grid.unep.ch/geoserver/wfs";
 stylesheetTag = '<link rel="stylesheet" href="http://openlayers.org/en/v3.20.1/css/ol.css" type="text/css">'
 document.write(stylesheetTag);
 
-scriptTag = '<script src="http://openlayers.org/en/v3.20.1/build/ol-debug.js" type="text/javascript"></script>';
+scriptTag = '<script src="https://openlayers.org/en/v3.20.1/build/ol-debug.js" type="text/javascript"></script>';
 document.write(scriptTag);
 
 scriptTag = '<script src="https://code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>';
