@@ -72,8 +72,6 @@ $(document).ready(function () {
             test = result;
             labelFeatures.push(createMarker(result, key));
         }
-        console.log("data", test.daily);
-        console.log("data", test.daily.data[2]);
         //label
         var vectorSource = new ol.source.Vector({
             features: labelFeatures //add an array of features
@@ -104,7 +102,7 @@ $(document).ready(function () {
                 $('#visibility').text(Math.round(feature.values_.visibility) + "km");
                 $('#windSpeed').text(Math.round(feature.values_.windSpeed) + "m/s");
                 $('#precip').text(Math.round(feature.values_.precipitation) + "mm/h");
-                $('#precipProbability').text(Math.round(feature.values_.precipitationProbability) + "%");
+                $('#precipProbability').text(feature.values_.precipitationProbability*100 + "%");
                 $('#summary').text(feature.values_.summary);
                 $('#icon').attr('src', feature.values_.icon);
                 //Today
@@ -112,7 +110,7 @@ $(document).ready(function () {
                 $('#visibilityToday').text(Math.round(feature.values_.visibilityToday) + "km");
                 $('#windSpeedToday').text(Math.round(feature.values_.windSpeedToday) + "m/s");
                 $('#precipToday').text(Math.round(feature.values_.precipitationToday) + "mm/h");
-                $('#precipProbabilityToday').text(Math.round(feature.values_.precipitationProbabilityToday) + "%");
+                $('#precipProbabilityToday').text(feature.values_.precipitationProbabilityToday*100 + "%");
                 $('#summaryToday').text(feature.values_.summaryToday);
                 $('#iconToday').attr('src', feature.values_.iconToday);
                 //nextday
@@ -120,7 +118,7 @@ $(document).ready(function () {
                 $('#visibilityNext1').text(Math.round(feature.values_.visibilityNext1) + "km");
                 $('#windSpeedNext1').text(Math.round(feature.values_.windSpeedNext1) + "m/s");
                 $('#precipNext1').text(Math.round(feature.values_.precipitationNext1) + "mm/h");
-                $('#precipProbabilityNext1').text(Math.round(feature.values_.precipitationProbabilityNext1) + "%");
+                $('#precipProbabilityNext1').text(feature.values_.precipitationProbabilityNext1*100 + "%");
                 $('#summaryNext1').text(feature.values_.summaryNext1);
                 $('#iconNext1').attr('src', feature.values_.iconNext1);
                 //nextday2
@@ -128,7 +126,7 @@ $(document).ready(function () {
                 $('#visibilityNext2').text(Math.round(feature.values_.visibilityNext2) + "km");
                 $('#windSpeedNext2').text(Math.round(feature.values_.windSpeedNext2) + "m/s");
                 $('#precipNext2').text(Math.round(feature.values_.precipitationNext2) + "mm/h");
-                $('#precipProbabilityNext2').text(Math.round(feature.values_.precipitationProbabilityNext2) + "%");
+                $('#precipProbabilityNext2').text(feature.values_.precipitationProbabilityNext2*100 + "%");
                 $('#summaryNext2').text(feature.values_.summaryNext2);
                 $('#iconNext2').attr('src', feature.values_.iconNext2);
                 //Week
@@ -167,7 +165,7 @@ $(document).ready(function () {
 
 
             }
-            console.log(+new Date(), new Date());
+
         });
 
     }, 1000);
@@ -187,7 +185,6 @@ $(document).ready(function () {
     function createMarker(result, key) {
         let currently = result.currently;
         let thisDay = result.daily.data[1];
-        console.log("today",thisDay.temperature);
         let nextDay1 = result.daily.data[2];
         let nextDay2 = result.daily.data[3];
         var iconFeature = new ol.Feature({
